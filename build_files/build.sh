@@ -15,7 +15,7 @@ dnf5 install -y \
     zoxide age tree-sitter delta btop eza lazygit \
     p7zip p7zip-plugins unrar \
     mtr nmap netcat tcpdump \
-    htop iotop ncdu tldr entr progress hyperfine watchexec dive ltrace perf httpie starship
+    htop iotop ncdu tldr entr progress hyperfine ltrace perf httpie
 
 ### Disable extra repos after install
 dnf5 -y copr disable alternateved/eza
