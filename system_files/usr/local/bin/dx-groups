@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+# usuário que executou o comando
+USER_NAME="${SUDO_USER:-$USER}"
+
+echo "Configuring GPU access groups for user: $USER_NAME"
+
+# garantir que os grupos existem
+if ! getent group video > /dev/null; then
+    echo "Creating group: video"
+    sudo groupadd video
+fi
+
+if ! getent group render > /dev/null; then
+    echo "Creating group: render"
+    sudo groupadd render
+fi
+
+# adicionar usuário
+echo "Adding $USER_NAME to groups..."
+
+sudo usermod -aG video "$USER_NAME"
+sudo usermod -aG render "$USER_NAME"
+
+echo
+echo "Groups updated."
+echo
+echo "You must log out and log back in for the changes to take effect."
+echo
+echo "Verify with:"
+echo "    groups $USER_NAME"
