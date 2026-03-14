@@ -15,6 +15,13 @@ dnf5 install -y tmux git gh neovim fzf ripgrep fd-find bat jq yq tree unzip wget
 dnf5 -y copr disable alternateved/eza
 dnf5 -y copr disable atim/lazygit
 dnf5 clean all
+
+rm -f /etc/profile.d/colorls.sh /etc/profile.d/colorgrep.sh
+rm -f /etc/profile.d/colorls.csh /etc/profile.d/colorgrep.csh
+
+rm -rf /var/cache/*
+rm -rf /var/lib/dnf/repos/*
+rm -rf /run/dnf /run/systemd /tmp/*
 # Use a COPR Example:
 #
 # dnf5 -y copr enable ublue-os/staging
