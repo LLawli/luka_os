@@ -15,7 +15,7 @@ dnf5 install -y \
     zoxide age tree-sitter delta btop eza lazygit \
     p7zip p7zip-plugins unrar \
     mtr nmap netcat tcpdump \
-    htop iotop ncdu tldr entr progress hyperfine ltrace perf httpie
+    htop iotop ncdu tldr entr progress hyperfine ltrace perf httpie tailscale
 
 ### Disable extra repos after install
 dnf5 -y copr disable alternateved/eza
@@ -23,7 +23,7 @@ dnf5 -y copr disable dejan/lazygit
 
 ### Services
 systemctl enable podman.socket
-
+systemctl enable tailscaled
 ### Remove default alias scripts that conflict with custom aliases
 rm -f /etc/profile.d/colorls.sh /etc/profile.d/colorgrep.sh
 rm -f /etc/profile.d/colorls.csh /etc/profile.d/colorgrep.csh
