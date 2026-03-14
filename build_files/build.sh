@@ -10,8 +10,8 @@ set -ouex pipefail
 # https://mirrors.rpmfusion.org/mirrorlist?path=free/fedora/updates/43/x86_64/repoview/index.html&protocol=https&redirect=1
 
 # this installs a package from fedora repos
-dnf5 install -y tmux 
-
+dnf5 install -y tmux git gh neovim fzf ripgrep fd-find bat eza jq yq tree unzip wget curl rsync lsof strace shellcheck direnv gcc-c++ clang make cmake ninja-build pkgconf-pkg-config openssl-devel sqlite-devel zlib-devel libffi-devel podman podman-docker podman-compose buildah skopeo zoxide age tree-sitter delta lazygit btop
+dnf5 clean all
 # Use a COPR Example:
 #
 # dnf5 -y copr enable ublue-os/staging
