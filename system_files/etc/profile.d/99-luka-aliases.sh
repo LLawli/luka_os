@@ -29,7 +29,8 @@ alias lta='eza --tree -a'
 alias lx='eza -lah --git --group-directories-first'
 
 # File viewing
-alias cat='bat'
+alias cat='bat --paging=never'
+alias rawcat='/usr/bin/cat'
 alias c='clear'
 
 # Fast search tools

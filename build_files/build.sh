@@ -15,7 +15,7 @@ dnf5 install -y \
     zoxide age tree-sitter delta btop eza lazygit \
     p7zip p7zip-plugins unrar \
     mtr nmap netcat tcpdump \
-    htop iotop ncdu tldr entr progress hyperfine ltrace perf httpie tailscale
+    htop iotop ncdu tldr entr progress hyperfine ltrace perf httpie tailscale bind-utils sqlite openssl
 
 ### Disable extra repos after install
 dnf5 -y copr disable alternateved/eza
@@ -30,7 +30,3 @@ rm -f /etc/profile.d/colorls.csh /etc/profile.d/colorgrep.csh
 
 ### Cleanup
 dnf5 clean all
-rm -rf /var/cache/*
-rm -rf /var/lib/dnf/repos/*
-rm -rf /run/dnf
-rm -rf /tmp/*

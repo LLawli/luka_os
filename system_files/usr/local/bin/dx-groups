@@ -2,32 +2,42 @@
 
 set -euo pipefail
 
-# usuário que executou o comando
-USER_NAME="${SUDO_USER:-$USER}"
+if [[ $EUID -ne 0 ]]; then
+    exec sudo "$0" "$@"
+fi
+
+USER_NAME="${SUDO_USER:-${PKEXEC_UID:+$(id -nu "$PKEXEC_UID")}}"
+USER_NAME="${USER_NAME:-$USER}"
+
+if ! id "$USER_NAME" >/dev/null 2>&1; then
+    echo "User not found: $USER_NAME" >&2
+    exit 1
+fi
 
 echo "Configuring GPU access groups for user: $USER_NAME"
 
-# garantir que os grupos existem
-if ! getent group video > /dev/null; then
-    echo "Creating group: video"
-    sudo groupadd video
+for group in video render; do
+    if ! getent group "$group" >/dev/null 2>&1; then
+        echo "Creating group: $group"
+        groupadd "$group"
+    fi
+done
+
+missing_groups=()
+id -nG "$USER_NAME" | grep -qw video || missing_groups+=(video)
+id -nG "$USER_NAME" | grep -qw render || missing_groups+=(render)
+
+if (( ${#missing_groups[@]} == 0 )); then
+    echo "User $USER_NAME is already in the required groups."
+    exit 0
 fi
 
-if ! getent group render > /dev/null; then
-    echo "Creating group: render"
-    sudo groupadd render
-fi
-
-# adicionar usuário
-echo "Adding $USER_NAME to groups..."
-
-sudo usermod -aG video "$USER_NAME"
-sudo usermod -aG render "$USER_NAME"
+echo "Adding $USER_NAME to groups: ${missing_groups[*]}"
+usermod -aG "$(IFS=,; echo "${missing_groups[*]}")" "$USER_NAME"
 
 echo
 echo "Groups updated."
-echo
 echo "You must log out and log back in for the changes to take effect."
 echo
 echo "Verify with:"
-echo "    groups $USER_NAME"
+echo "    id -nG $USER_NAME"
