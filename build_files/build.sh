@@ -122,11 +122,11 @@ install -m755 "$GHREL/ripsecrets-${RIPSECRETS_VER_CLEAN}-${ARCH}-unknown-linux-g
 GLOW_VER=$(gh_latest "charmbracelet/glow")
 curl -fsSL "https://github.com/charmbracelet/glow/releases/download/${GLOW_VER}/glow_${GLOW_VER#v}_Linux_x86_64.tar.gz" \
     | tar -xz -C "$GHREL"
-install -m755 "$GHREL/glow" "$INSTALL_DIR/glow"
+install -m755 "$GHREL/glow_${GLOW_VER#v}_Linux_x86_64/glow" "$INSTALL_DIR/glow"
 
-# carapace — shell completions
+# carapace — shell completions (asset name is carapace-bin_*)
 CARAPACE_VER=$(gh_latest "carapace-sh/carapace-bin")
-curl -fsSL "https://github.com/carapace-sh/carapace-bin/releases/download/${CARAPACE_VER}/carapace_${CARAPACE_VER#v}_linux_amd64.tar.gz" \
+curl -fsSL "https://github.com/carapace-sh/carapace-bin/releases/download/${CARAPACE_VER}/carapace-bin_${CARAPACE_VER#v}_linux_amd64.tar.gz" \
     | tar -xz -C "$GHREL"
 install -m755 "$GHREL/carapace" "$INSTALL_DIR/carapace"
 
