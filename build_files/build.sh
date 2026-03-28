@@ -146,6 +146,20 @@ curl -fsSL "https://github.com/jesseduffield/lazydocker/releases/download/${LAZY
     | tar -xz -C "$GHREL"
 install -m755 "$GHREL/lazydocker" "$INSTALL_DIR/lazydocker"
 
+### Gaming environment optimizations
+# Shader Booster — increase GPU shader cache (github.com/psygreg/shader-booster)
+echo "__GL_SHADER_DISK_CACHE_SIZE=10000000000" >> /etc/environment  # NVIDIA (535+)
+echo "AMD_VULKAN_ICD=RADV" >> /etc/environment                       # force RADV Vulkan (Mesa)
+echo "MESA_SHADER_CACHE_MAX_SIZE=10G" >> /etc/environment            # Mesa shader cache (23.1+)
+# Threaded OpenGL optimizations
+echo "__GL_THREADED_OPTIMIZATIONS=1" >> /etc/environment             # NVIDIA threaded GL
+echo "mesa_glthread=true" >> /etc/environment                        # Mesa threaded GL
+# Wine/Proton FSR upscaling (fullscreen, all games)
+echo "WINE_FULLSCREEN_FSR=1" >> /etc/environment
+echo "WINE_FSR_STRENGTH=2" >> /etc/environment
+# DXVK async shader compilation (reduces stutter; minor visual artifacts possible)
+echo "DXVK_ASYNC=1" >> /etc/environment
+
 ### Services
 systemctl enable podman.socket
 systemctl enable tailscaled
