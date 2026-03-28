@@ -3,10 +3,7 @@
 export EDITOR=nvim
 export VISUAL=nvim
 
-# Pretty manpages using bat
-if command -v bat >/dev/null 2>&1; then
-  export MANPAGER="sh -c 'col -bx | bat -l man -p'"
-fi
+export STARSHIP_CONFIG=/etc/starship.toml
 
 # Better less behavior
 export LESS="-R"

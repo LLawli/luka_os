@@ -38,12 +38,6 @@ if command -v eza >/dev/null 2>&1; then
   alias lta='eza --tree -a --ignore-glob=".git"'
 fi
 
-# ── bat: powers cat ──────────────────────────────────────────────────────────
-if command -v bat >/dev/null 2>&1; then
-  alias cat='bat --paging=never'
-  alias rawcat='/usr/bin/cat'
-fi
-
 # ── ripgrep ───────────────────────────────────────────────────────────────────
 if command -v rg >/dev/null 2>&1; then
   alias r='rg'

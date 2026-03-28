@@ -1,0 +1,29 @@
+# Starship prompt config
+
+[username]
+show_always = true
+style_user = "bold cyan"
+style_root = "bold red"
+format = "[$user]($style)"
+
+[hostname]
+ssh_only = false
+format = "[@$hostname]($style) "
+style = "bold cyan"
+disabled = false
+
+[cmd_duration]
+min_time = 2_000
+format = "took [$duration](bold yellow) "
+
+[docker_context]
+disabled = false
+
+[python]
+disabled = false
+
+[rust]
+disabled = false
+
+[golang]
+disabled = false

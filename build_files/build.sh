@@ -26,7 +26,9 @@ dnf5 install -y \
     p7zip p7zip-plugins unrar \
     mtr nmap netcat tcpdump \
     htop iotop ncdu entr progress hyperfine ltrace perf tailscale bind-utils sqlite openssl \
-    zsh atuin
+    zsh atuin \
+    zsh-autosuggestions zsh-syntax-highlighting \
+    thefuck
 
 ### Disable extra repos after install
 dnf5 -y copr disable dejan/lazygit

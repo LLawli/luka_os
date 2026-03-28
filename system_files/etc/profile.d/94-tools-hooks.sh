@@ -33,4 +33,17 @@ if command -v carapace >/dev/null 2>&1 && [ -n "${_luka_shell:-}" ]; then
   fi
 fi
 
+# ── zsh plugins ───────────────────────────────────────────────────────────────
+if [ -n "${ZSH_VERSION:-}" ]; then
+  [ -f /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh ] && \
+    source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+  [ -f /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ] && \
+    source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+fi
+
+# ── thefuck ───────────────────────────────────────────────────────────────────
+if command -v thefuck >/dev/null 2>&1; then
+  eval "$(thefuck --alias)"
+fi
+
 unset _luka_shell
