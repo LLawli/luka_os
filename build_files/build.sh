@@ -147,7 +147,6 @@ install -m755 "$GHREL/lazydocker" "$INSTALL_DIR/lazydocker"
 ### Services
 systemctl enable podman.socket
 systemctl enable tailscaled
-systemctl enable set-zsh-default
 
 ### Ensure zshrc.d directory exists
 mkdir -p /etc/zshrc.d

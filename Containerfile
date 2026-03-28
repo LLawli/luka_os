@@ -37,6 +37,10 @@ RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
 
 COPY system_files/etc /etc
 COPY system_files/usr /usr
+
+### Enable systemd units from system_files
+RUN systemctl enable set-zsh-default
+
 ### LINTING
 ## Verify final image and contents are correct.
 RUN bootc container lint
