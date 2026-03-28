@@ -1,49 +1,15 @@
-# Tool shell hooks: direnv, atuin, carapace
-# Loaded for both bash and zsh (shell-aware)
+# Tool shell hooks: direnv, atuin, carapace, thefuck
+# Bash only — zsh hooks are in /etc/zshrc.d/50-luka.zsh
 case $- in
   *i*) ;;
   *) return 0 2>/dev/null || exit 0 ;;
 esac
 
-[ -n "$_LUKA_HOOKS_LOADED" ] && return
-export _LUKA_HOOKS_LOADED=1
+[ -z "${BASH_VERSION:-}" ] && return
+[ -n "$_LUKA_BASH_HOOKS_LOADED" ] && return
+export _LUKA_BASH_HOOKS_LOADED=1
 
-if [ -n "${ZSH_VERSION:-}" ]; then
-  _luka_shell=zsh
-elif [ -n "${BASH_VERSION:-}" ]; then
-  _luka_shell=bash
-fi
-
-# ── direnv ────────────────────────────────────────────────────────────────────
-if command -v direnv >/dev/null 2>&1 && [ -n "${_luka_shell:-}" ]; then
-  eval "$(direnv hook "$_luka_shell")"
-fi
-
-# ── atuin ─────────────────────────────────────────────────────────────────────
-if command -v atuin >/dev/null 2>&1 && [ -n "${_luka_shell:-}" ]; then
-  eval "$(atuin init "$_luka_shell" --disable-up-arrow)"
-fi
-
-# ── carapace ──────────────────────────────────────────────────────────────────
-if command -v carapace >/dev/null 2>&1 && [ -n "${_luka_shell:-}" ]; then
-  if [ "$_luka_shell" = "zsh" ]; then
-    source <(carapace _carapace zsh)
-  elif [ "$_luka_shell" = "bash" ]; then
-    source <(carapace _carapace bash)
-  fi
-fi
-
-# ── zsh plugins ───────────────────────────────────────────────────────────────
-if [ -n "${ZSH_VERSION:-}" ]; then
-  [ -f /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh ] && \
-    source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-  [ -f /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ] && \
-    source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-fi
-
-# ── thefuck ───────────────────────────────────────────────────────────────────
-if command -v thefuck >/dev/null 2>&1; then
-  eval "$(thefuck --alias)"
-fi
-
-unset _luka_shell
+command -v direnv   >/dev/null 2>&1 && eval "$(direnv hook bash)"
+command -v atuin    >/dev/null 2>&1 && eval "$(atuin init bash --disable-up-arrow)"
+command -v carapace >/dev/null 2>&1 && source <(carapace _carapace bash)
+command -v thefuck  >/dev/null 2>&1 && eval "$(thefuck --alias)"

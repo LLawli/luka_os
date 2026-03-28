@@ -37,3 +37,17 @@ bindkey '^[[A' history-search-backward   # up arrow
 bindkey '^[[B' history-search-forward    # down arrow
 bindkey '^[^[[C' forward-word            # alt+right
 bindkey '^[^[[D' backward-word           # alt+left
+
+# ── tool hooks (after compinit so compdef is available) ───────────────────────
+command -v direnv   >/dev/null 2>&1 && eval "$(direnv hook zsh)"
+command -v atuin    >/dev/null 2>&1 && eval "$(atuin init zsh --disable-up-arrow)"
+command -v carapace >/dev/null 2>&1 && source <(carapace _carapace zsh)
+command -v thefuck  >/dev/null 2>&1 && eval "$(thefuck --alias)"
+command -v zoxide   >/dev/null 2>&1 && eval "$(zoxide init zsh --cmd cd)"
+command -v starship >/dev/null 2>&1 && eval "$(starship init zsh)"
+
+# ── zsh plugins ───────────────────────────────────────────────────────────────
+[[ -f /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh ]] && \
+  source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+[[ -f /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]] && \
+  source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
