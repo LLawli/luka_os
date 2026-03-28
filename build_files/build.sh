@@ -26,7 +26,7 @@ dnf5 install -y \
     p7zip p7zip-plugins unrar \
     mtr nmap netcat tcpdump \
     htop iotop ncdu entr progress hyperfine ltrace perf tailscale bind-utils sqlite openssl \
-    zsh atuin yazi
+    zsh atuin
 
 ### Disable extra repos after install
 dnf5 -y copr disable dejan/lazygit
@@ -129,6 +129,14 @@ CARAPACE_VER=$(gh_latest "carapace-sh/carapace-bin")
 curl -fsSL "https://github.com/carapace-sh/carapace-bin/releases/download/${CARAPACE_VER}/carapace_${CARAPACE_VER#v}_linux_amd64.tar.gz" \
     | tar -xz -C "$GHREL"
 install -m755 "$GHREL/carapace" "$INSTALL_DIR/carapace"
+
+# yazi — file manager TUI (not in Fedora 43 repos)
+YAZI_VER=$(gh_latest "sxyazi/yazi")
+curl -fsSL "https://github.com/sxyazi/yazi/releases/download/${YAZI_VER}/yazi-${ARCH}-unknown-linux-musl.zip" \
+    -o "$GHREL/yazi.zip"
+unzip -q "$GHREL/yazi.zip" -d "$GHREL"
+install -m755 "$GHREL/yazi-${ARCH}-unknown-linux-musl/yazi" "$INSTALL_DIR/yazi"
+install -m755 "$GHREL/yazi-${ARCH}-unknown-linux-musl/ya" "$INSTALL_DIR/ya"
 
 # lazydocker — docker/podman TUI
 LAZYDOCKER_VER=$(gh_latest "jesseduffield/lazydocker")
