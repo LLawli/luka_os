@@ -15,7 +15,6 @@ dnf5 install -y \
     jq \
     procs \
     ripgrep \
-    starship \
     tealdeer \
     yq \
     zoxide \
@@ -104,6 +103,12 @@ PIPR_VER=$(gh_latest "elkowar/pipr")
 curl -fsSL "https://github.com/elkowar/pipr/releases/download/${PIPR_VER}/pipr" \
     -o "$GHREL/pipr"
 install -m755 "$GHREL/pipr" "$INSTALL_DIR/pipr"
+
+# starship — cross-shell prompt
+STARSHIP_VER=$(gh_latest "starship/starship")
+curl -fsSL "https://github.com/starship/starship/releases/download/${STARSHIP_VER}/starship-${ARCH}-unknown-linux-musl.tar.gz" \
+    | tar -xz -C "$GHREL"
+install -m755 "$GHREL/starship" "$INSTALL_DIR/starship"
 
 # ripsecrets — secret scanner (gnu only)
 RIPSECRETS_VER=$(gh_latest "sirwart/ripsecrets")
