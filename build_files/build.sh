@@ -25,7 +25,8 @@ dnf5 install -y \
     age tree-sitter lazygit \
     p7zip p7zip-plugins unrar \
     mtr nmap netcat tcpdump \
-    htop iotop ncdu entr progress hyperfine ltrace perf tailscale bind-utils sqlite openssl
+    htop iotop ncdu entr progress hyperfine ltrace perf tailscale bind-utils sqlite openssl \
+    zsh atuin yazi
 
 ### Disable extra repos after install
 dnf5 -y copr disable dejan/lazygit
@@ -117,9 +118,31 @@ curl -fsSL "https://github.com/sirwart/ripsecrets/releases/download/${RIPSECRETS
     | tar -xz -C "$GHREL"
 install -m755 "$GHREL/ripsecrets-${RIPSECRETS_VER_CLEAN}-${ARCH}-unknown-linux-gnu/ripsecrets" "$INSTALL_DIR/ripsecrets"
 
+# glow — markdown renderer
+GLOW_VER=$(gh_latest "charmbracelet/glow")
+curl -fsSL "https://github.com/charmbracelet/glow/releases/download/${GLOW_VER}/glow_${GLOW_VER#v}_Linux_x86_64.tar.gz" \
+    | tar -xz -C "$GHREL"
+install -m755 "$GHREL/glow" "$INSTALL_DIR/glow"
+
+# carapace — shell completions
+CARAPACE_VER=$(gh_latest "carapace-sh/carapace-bin")
+curl -fsSL "https://github.com/carapace-sh/carapace-bin/releases/download/${CARAPACE_VER}/carapace_${CARAPACE_VER#v}_linux_amd64.tar.gz" \
+    | tar -xz -C "$GHREL"
+install -m755 "$GHREL/carapace" "$INSTALL_DIR/carapace"
+
+# lazydocker — docker/podman TUI
+LAZYDOCKER_VER=$(gh_latest "jesseduffield/lazydocker")
+curl -fsSL "https://github.com/jesseduffield/lazydocker/releases/download/${LAZYDOCKER_VER}/lazydocker_${LAZYDOCKER_VER#v}_Linux_x86_64.tar.gz" \
+    | tar -xz -C "$GHREL"
+install -m755 "$GHREL/lazydocker" "$INSTALL_DIR/lazydocker"
+
 ### Services
 systemctl enable podman.socket
 systemctl enable tailscaled
+systemctl enable set-zsh-default
+
+### Ensure zshrc.d directory exists
+mkdir -p /etc/zshrc.d
 
 ### Remove default alias scripts that conflict with custom aliases
 rm -f /etc/profile.d/colorls.sh /etc/profile.d/colorgrep.sh

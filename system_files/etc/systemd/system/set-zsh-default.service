@@ -1,0 +1,13 @@
+[Unit]
+Description=Set zsh as default shell for human users
+ConditionPathExists=!/var/lib/.set-zsh-default.done
+After=local-fs.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/set-zsh-default
+ExecStartPost=/usr/bin/touch /var/lib/.set-zsh-default.done
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

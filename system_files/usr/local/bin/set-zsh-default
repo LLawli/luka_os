@@ -1,0 +1,12 @@
+#!/bin/bash
+# Changes the default shell to zsh for all human users (UID 1000-60000)
+set -euo pipefail
+
+ZSH_PATH="$(command -v zsh 2>/dev/null || echo /bin/zsh)"
+
+while IFS=: read -r user _ uid _ _ _ shell; do
+  if [ "$uid" -ge 1000 ] && [ "$uid" -lt 60000 ] && [ "$shell" != "$ZSH_PATH" ]; then
+    echo "set-zsh-default: switching $user shell to $ZSH_PATH"
+    usermod -s "$ZSH_PATH" "$user"
+  fi
+done < /etc/passwd

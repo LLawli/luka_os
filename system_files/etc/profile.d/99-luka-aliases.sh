@@ -96,8 +96,11 @@ alias ppa='podman ps -a'
 # ── system tools ─────────────────────────────────────────────────────────────
 alias j='just'
 alias lg='lazygit'
+alias ldk='lazydocker'
 alias bt='btop'
 alias c='clear'
+alias y='yazi'
+alias md='glow'
 
 # ── navigation ────────────────────────────────────────────────────────────────
 alias ..='cd ..'
