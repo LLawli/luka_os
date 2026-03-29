@@ -54,6 +54,19 @@ gh_latest() {
     fi
 }
 
+# Find the first release asset name matching a pattern.
+# Usage: gh_asset <owner/repo> <tag> <grep-pattern>
+gh_asset() {
+    local token
+    token=$(cat /run/secrets/github_token 2>/dev/null || true)
+    if [ -n "$token" ]; then
+        curl -fsSL -H "Authorization: Bearer ${token}" \
+            "https://api.github.com/repos/$1/releases/tags/$2"
+    else
+        curl -fsSL "https://api.github.com/repos/$1/releases/tags/$2"
+    fi | jq -r '.assets[].name' | grep -E "$3" | head -1
+}
+
 # Download an archive and verify its SHA256 checksum.
 # sha_url may point to a multi-entry "HASH  filename" sha256sums file
 # or a single-hash file (just the hex string on the first line).
@@ -224,7 +237,7 @@ install -m755 "$GHREL/act" "$INSTALL_DIR/act"
 
 # gitoxide — fast git implementation in Rust (gix + ein)
 GIX_VER=$(gh_latest "Byron/gitoxide")
-GIX_ARCHIVE="gitoxide-max-termsize-${GIX_VER#v}-x86_64-unknown-linux-musl.tar.gz"
+GIX_ARCHIVE=$(gh_asset "Byron/gitoxide" "${GIX_VER}" "max-termsize.*x86_64-unknown-linux-musl\.tar\.gz")
 dl_verify "$GHREL/$GIX_ARCHIVE" \
     "https://github.com/Byron/gitoxide/releases/download/${GIX_VER}/${GIX_ARCHIVE}" \
     "https://github.com/Byron/gitoxide/releases/download/${GIX_VER}/sha256sums"
