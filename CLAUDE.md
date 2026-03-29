@@ -76,3 +76,40 @@ In `.github/workflows/build.yml`:
 - **Packages**: Edit the `dnf install` call in `build_files/build.sh`
 - **Shell environment**: Edit files under `system_files/etc/profile.d/`
 - **Disk/ISO installer behavior**: Edit `disk_config/*.toml`
+
+## Commit Convention
+
+Follow [Conventional Commits](https://www.conventionalcommits.org/):
+
+```
+feat: add zellij to GitHub release installs
+fix: correct watchexec archive extraction path
+chore: bump delta to v0.19.0
+```
+
+Types: `feat`, `fix`, `chore`, `refactor`, `docs`, `ci`.
+
+## Testing Locally Before Push
+
+```bash
+# Full image build (requires podman/buildah)
+just build
+
+# Lint + format shell scripts
+just lint
+just format
+
+# Run the image in a VM to verify boot
+just build-qcow2
+just run-vm-qcow2
+```
+
+For changes to `build.sh`, always run `just lint` before pushing — the CI will fail on shellcheck errors.
+
+## Required GitHub Secrets
+
+| Secret | Purpose |
+|---|---|
+| `SIGNING_SECRET` | Cosign private key for signing images pushed to GHCR |
+
+`GITHUB_TOKEN` is provided automatically by GitHub Actions (used for pushing to GHCR and authenticated GitHub API calls during build).
