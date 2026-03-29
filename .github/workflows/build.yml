@@ -115,7 +115,7 @@ jobs:
           oci: false
           extra-args: |
             --secret id=github_token,env=GITHUB_TOKEN
-            --cache-from ${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+            --cache-from ${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_NAME }}
             --layers
 
       # Rechunk is a script that we use on Universal Blue to make sure there isnt a single huge layer when your image gets published.
