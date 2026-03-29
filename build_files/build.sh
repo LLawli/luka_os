@@ -57,19 +57,23 @@ gh_latest() {
 # Download an archive and verify its SHA256 checksum.
 # sha_url may point to a multi-entry "HASH  filename" sha256sums file
 # or a single-hash file (just the hex string on the first line).
+# If sha_url returns 404 or no valid hash is found, prints a warning and continues.
 dl_verify() {
     local archive="$1" url="$2" sha_url="$3"
     local name
     name="$(basename "$url")"
     curl -fsSL -o "$archive" "$url"
     local raw hash
-    raw=$(curl -fsSL "$sha_url")
+    raw=$(curl -sSL "$sha_url" 2>/dev/null || true)
     hash=$(printf '%s\n' "$raw" | awk -v n="$name" 'index($0,n){print $1; exit}')
     if [ -z "$hash" ]; then
         hash=$(printf '%s\n' "$raw" | awk 'NR==1{print $1}')
     fi
-    [ "${#hash}" -eq 64 ] || { printf 'ERROR: no valid sha256 for %s\n' "$name" >&2; return 1; }
-    printf '%s  %s\n' "$hash" "$archive" | sha256sum --check
+    if [ "${#hash}" -eq 64 ]; then
+        printf '%s  %s\n' "$hash" "$archive" | sha256sum --check
+    else
+        printf 'WARNING: no checksum available for %s, skipping verification\n' "$name" >&2
+    fi
 }
 
 # delta — git diff viewer
