@@ -25,7 +25,7 @@ dnf5 install -y \
     age tree-sitter lazygit \
     p7zip p7zip-plugins unrar \
     mtr nmap netcat tcpdump \
-    htop iotop ncdu entr progress hyperfine ltrace perf tailscale bind-utils sqlite openssl \
+    htop iotop ncdu entr progress hyperfine ltrace perf tailscale bind-utils sqlite openssl radeontop \
     zsh atuin \
     zsh-autosuggestions zsh-syntax-highlighting \
     thefuck
@@ -212,6 +212,25 @@ dl_verify "$GHREL/$LAZYDOCKER_ARCHIVE" \
     "https://github.com/jesseduffield/lazydocker/releases/download/${LAZYDOCKER_VER}/checksums.txt"
 tar -xz -C "$GHREL" -f "$GHREL/$LAZYDOCKER_ARCHIVE"
 install -m755 "$GHREL/lazydocker" "$INSTALL_DIR/lazydocker"
+
+# act — run GitHub Actions locally with Docker/Podman
+ACT_VER=$(gh_latest "nektos/act")
+ACT_ARCHIVE="act_Linux_x86_64.tar.gz"
+dl_verify "$GHREL/$ACT_ARCHIVE" \
+    "https://github.com/nektos/act/releases/download/${ACT_VER}/${ACT_ARCHIVE}" \
+    "https://github.com/nektos/act/releases/download/${ACT_VER}/checksums.txt"
+tar -xz -C "$GHREL" -f "$GHREL/$ACT_ARCHIVE"
+install -m755 "$GHREL/act" "$INSTALL_DIR/act"
+
+# gitoxide — fast git implementation in Rust (gix + ein)
+GIX_VER=$(gh_latest "Byron/gitoxide")
+GIX_ARCHIVE="gitoxide-max-termsize-${GIX_VER#v}-x86_64-unknown-linux-musl.tar.gz"
+dl_verify "$GHREL/$GIX_ARCHIVE" \
+    "https://github.com/Byron/gitoxide/releases/download/${GIX_VER}/${GIX_ARCHIVE}" \
+    "https://github.com/Byron/gitoxide/releases/download/${GIX_VER}/sha256sums"
+tar -xz -C "$GHREL" -f "$GHREL/$GIX_ARCHIVE"
+install -m755 "$GHREL/gix" "$INSTALL_DIR/gix"
+install -m755 "$GHREL/ein" "$INSTALL_DIR/ein"
 
 ### Gaming environment optimizations
 # Shader Booster — increase GPU shader cache (github.com/psygreg/shader-booster)

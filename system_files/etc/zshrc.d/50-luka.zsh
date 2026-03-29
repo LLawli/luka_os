@@ -43,7 +43,6 @@ command -v direnv   >/dev/null 2>&1 && eval "$(direnv hook zsh)"
 command -v atuin    >/dev/null 2>&1 && eval "$(atuin init zsh --disable-up-arrow)"
 command -v carapace >/dev/null 2>&1 && source <(carapace _carapace zsh)
 command -v thefuck  >/dev/null 2>&1 && eval "$(thefuck --alias)"
-command -v zoxide   >/dev/null 2>&1 && eval "$(zoxide init zsh --cmd cd)"
 command -v starship >/dev/null 2>&1 && eval "$(starship init zsh)"
 
 # ── zsh plugins ───────────────────────────────────────────────────────────────
@@ -51,3 +50,9 @@ command -v starship >/dev/null 2>&1 && eval "$(starship init zsh)"
   source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 [[ -f /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]] && \
   source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+# ── zoxide (last so cd alias is not overridden by other inits) ────────────────
+if command -v zoxide >/dev/null 2>&1; then
+  eval "$(zoxide init zsh --cmd cd)"
+  alias zz='zi'
+fi
