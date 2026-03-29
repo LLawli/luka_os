@@ -262,6 +262,16 @@ systemctl enable tailscaled
 ### Ensure zshrc.d directory exists
 mkdir -p /etc/zshrc.d
 
+### Patch os-release identity (drop-ins are not read by fastfetch/most tools directly)
+sed -i \
+    -e 's|^NAME=.*|NAME="Luka OS"|' \
+    -e 's|^PRETTY_NAME=.*|PRETTY_NAME="Luka OS (Bazzite)"|' \
+    -e 's|^ID=.*|ID=luka-os|' \
+    -e 's|^ID_LIKE=.*|ID_LIKE="bazzite fedora"|' \
+    -e 's|^HOME_URL=.*|HOME_URL="https://github.com/LLawli/luka_os"|' \
+    -e 's|^DOCUMENTATION_URL=.*|DOCUMENTATION_URL="https://github.com/LLawli/luka_os"|' \
+    /usr/lib/os-release
+
 ### Remove default alias scripts that conflict with custom aliases
 rm -f /etc/profile.d/colorls.sh /etc/profile.d/colorgrep.sh
 rm -f /etc/profile.d/colorls.csh /etc/profile.d/colorgrep.csh
