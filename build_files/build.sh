@@ -20,6 +20,7 @@ dnf5 install -y \
     zoxide \
     tmux git gh neovim \
     tree unzip wget curl rsync lsof strace shellcheck direnv \
+    librsvg2-tools \
     gcc-c++ clang make cmake ninja-build pkgconf-pkg-config openssl-devel sqlite-devel zlib-devel libffi-devel \
     podman podman-docker podman-compose buildah skopeo \
     age tree-sitter lazygit \

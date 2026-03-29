@@ -1,0 +1,7 @@
+NAME="Luka OS"
+PRETTY_NAME="Luka OS (Bazzite)"
+ID=luka-os
+ID_LIKE="bazzite fedora"
+HOME_URL="https://github.com/LLawli/luka_os"
+DOCUMENTATION_URL="https://github.com/LLawli/luka_os"
+LOGO=start-here
