@@ -39,11 +39,12 @@ RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
 COPY system_files/etc /etc
 COPY system_files/usr /usr
 
-### Enable systemd units and generate Plymouth logo from SVG
+### Enable systemd units, generate Plymouth logo and set default theme
 RUN systemctl enable set-zsh-default && \
     rsvg-convert -w 256 -h 256 \
         /usr/share/icons/hicolor/scalable/apps/start-here.svg \
-        -o /usr/share/plymouth/themes/luka-os/logo.png
+        -o /usr/share/plymouth/themes/luka-os/logo.png && \
+    plymouth-set-default-theme luka-os
 
 ### LINTING
 ## Verify final image and contents are correct.
