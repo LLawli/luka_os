@@ -235,15 +235,10 @@ dl_verify "$GHREL/$ACT_ARCHIVE" \
 tar -xz -C "$GHREL" -f "$GHREL/$ACT_ARCHIVE"
 install -m755 "$GHREL/act" "$INSTALL_DIR/act"
 
-# gitoxide — fast git implementation in Rust (gix + ein)
-GIX_VER=$(gh_latest "Byron/gitoxide")
-GIX_ARCHIVE=$(gh_asset "Byron/gitoxide" "${GIX_VER}" "max-termsize.*x86_64-unknown-linux-musl\.tar\.gz")
-dl_verify "$GHREL/$GIX_ARCHIVE" \
-    "https://github.com/Byron/gitoxide/releases/download/${GIX_VER}/${GIX_ARCHIVE}" \
-    "https://github.com/Byron/gitoxide/releases/download/${GIX_VER}/sha256sums"
-tar -xz -C "$GHREL" -f "$GHREL/$GIX_ARCHIVE"
-install -m755 "$GHREL/gix" "$INSTALL_DIR/gix"
-install -m755 "$GHREL/ein" "$INSTALL_DIR/ein"
+# TODO: gitoxide (Byron/gitoxide) — asset naming changes between releases.
+# Verify the correct asset name at https://github.com/Byron/gitoxide/releases/latest
+# before adding back. Previously "gitoxide-max-termsize-*-x86_64-unknown-linux-musl.tar.gz"
+# but this variant was not present in v0.52.0.
 
 ### Gaming environment optimizations
 # Shader Booster — increase GPU shader cache (github.com/psygreg/shader-booster)
