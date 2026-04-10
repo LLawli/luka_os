@@ -268,6 +268,8 @@ echo "WINE_FSR_STRENGTH=2" >> /etc/environment
 echo "DXVK_ASYNC=1" >> /etc/environment
 
 ### Services
+systemctl enable docker.socket
+systemctl enable containerd.service
 systemctl enable podman.socket
 systemctl enable docker.service
 systemctl enable tailscaled
