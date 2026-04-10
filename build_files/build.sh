@@ -22,7 +22,7 @@ dnf5 install -y \
     tree unzip wget curl rsync lsof strace shellcheck direnv \
     librsvg2-tools \
     gcc-c++ clang make cmake ninja-build pkgconf-pkg-config openssl-devel sqlite-devel zlib-devel libffi-devel \
-    podman podman-docker podman-compose buildah skopeo \
+    podman podman-compose buildah skopeo \
     age tree-sitter lazygit \
     p7zip p7zip-plugins unrar \
     mtr nmap netcat tcpdump \
@@ -33,6 +33,18 @@ dnf5 install -y \
 
 ### Disable extra repos after install
 dnf5 -y copr disable dejan/lazygit
+
+### Docker official repo
+curl -fsSL https://download.docker.com/linux/fedora/docker-ce.repo \
+    -o /etc/yum.repos.d/docker-ce.repo
+
+### Install real Docker
+dnf5 install -y \
+    docker-ce \
+    docker-ce-cli \
+    containerd.io \
+    docker-buildx-plugin \
+    docker-compose-plugin
 
 ### Install tools from GitHub releases
 # (not yet available in Fedora repos or need newer versions)
@@ -257,6 +269,7 @@ echo "DXVK_ASYNC=1" >> /etc/environment
 
 ### Services
 systemctl enable podman.socket
+systemctl enable docker.service
 systemctl enable tailscaled
 
 ### Ensure zshrc.d directory exists
